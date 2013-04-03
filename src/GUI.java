@@ -11,6 +11,7 @@ public class GUI extends JPanel{
 	
 	private static JFrame frame;
 	private static JPanel debugPanel, sensorPanel;
+	private static JLabel varSection, errorSection;
 	
 	private static void makeGUI() {
 		frame = new JFrame("Debug GUI");
@@ -24,34 +25,54 @@ public class GUI extends JPanel{
 		GridBagConstraints c = new GridBagConstraints();
 		
 		c.fill = GridBagConstraints.NONE;
-		c.weightx = 0.5;
-		c.weighty = 0.5;
+		//c.weightx = 0.5;
+		//c.weighty = 0.5;
 		c.gridx = 0;
 		c.gridy = 0;
-		//c.gridheight = 2;
+		c.gridheight = 2;
+		c.ipady = 100;
 		frame.getContentPane().add(makeTabSection(), c);
 		
-		frame.setSize(600, 800);
+		c.ipady = 0;
+		c.gridx = 1;
+		c.gridheight = 1;
+		frame.getContentPane().add(makeAbortButton(), c);
+		
+		c.gridx = 2;
+		frame.getContentPane().add(makeEStopButton(), c);
+		
+		c.gridwidth = 2;
+		c.gridheight = 1;
+		c.gridx = 1;
+		c.gridy = 1;
+		frame.getContentPane().add(makeVarSection(), c);
+		
+		c.gridwidth = 3;
+		c.gridx = 0;
+		c.gridy = 2;
+		frame.getContentPane().add(makeErrorSection(), c);
+		
+		frame.setSize(800, 400);
 		frame.setVisible(true);
 	}
 	
 	private static JTabbedPane makeTabSection() {
 		JTabbedPane pane = new JTabbedPane();
-		pane.setLayout(new GridLayout(1,0));
-		JPanel panel =  createSensorPanel();
-		pane.addTab("Sensor", panel);
-		/*panel = createDebugPanel();
-		pane.addTab("Debug", panel);*/
+		sensorPanel =  createSensorPanel();
+		pane.addTab("Sensor", sensorPanel);
+		pane.setSelectedIndex(0);
+		debugPanel = createDebugPanel();
+		pane.addTab("Debug", debugPanel);
 		return pane;
 	}
 	
 	private static JPanel createSensorPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1, 0));
-		/*JLabel sensorInfo = new JLabel("Laura Ipsen");
+		JLabel sensorInfo = new JLabel("Laura Ipsen");
 		panel.add(sensorInfo);
 		JLabel uplinkInfo = new JLabel("Uplink info");
-		panel.add(uplinkInfo);*/
+		panel.add(uplinkInfo);
 		JButton button = new JButton("Billy");
 		panel.add(button);
 		return panel;
@@ -65,6 +86,26 @@ public class GUI extends JPanel{
 		JLabel debuggingInfo = new JLabel("Single Steps, Breakpoints, etc.");
 		panel.add(debuggingInfo);
 		return panel;
+	}
+	
+	private static JButton makeAbortButton() {
+		JButton button = new JButton("Abort");
+		return button;
+	}
+	
+	private static JButton makeEStopButton() {
+		JButton button = new JButton("E Stop");
+		return button;
+	}
+	
+	private static JLabel makeVarSection() {
+		varSection = new JLabel("Variables and stuff");
+		return varSection;
+	}
+	
+	private static JLabel makeErrorSection() {
+		errorSection = new JLabel("Errors... and... like... stuff. Man.");
+		return errorSection;
 	}
 	
 	public static void main(String[] args) {
