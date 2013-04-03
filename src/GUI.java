@@ -9,10 +9,10 @@ import java.awt.event.*;
 
 public class GUI extends JPanel{
 	
-	private JFrame frame;
-	private JPanel debugPanel, sensorPanel;
+	private static JFrame frame;
+	private static JPanel debugPanel, sensorPanel;
 	
-	private void GUI() {
+	private static void makeGUI() {
 		frame = new JFrame("Debug GUI");
 		frame.addWindowListener(new WindowAdapter() {
 
@@ -23,38 +23,41 @@ public class GUI extends JPanel{
 		frame.getContentPane().setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		
-		c.fill = GridBagConstraints.BOTH;
+		c.fill = GridBagConstraints.NONE;
 		c.weightx = 0.5;
 		c.weighty = 0.5;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridheight = 2;
+		//c.gridheight = 2;
 		frame.getContentPane().add(makeTabSection(), c);
 		
 		frame.setSize(600, 800);
 		frame.setVisible(true);
 	}
 	
-	private JTabbedPane makeTabSection() {
+	private static JTabbedPane makeTabSection() {
 		JTabbedPane pane = new JTabbedPane();
+		pane.setLayout(new GridLayout(1,0));
 		JPanel panel =  createSensorPanel();
 		pane.addTab("Sensor", panel);
-		panel = createDebugPanel();
-		pane.addTab("Debug", panel);
+		/*panel = createDebugPanel();
+		pane.addTab("Debug", panel);*/
 		return pane;
 	}
 	
-	private JPanel createSensorPanel() {
+	private static JPanel createSensorPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1, 0));
-		JLabel sensorInfo = new JLabel("Laura Ipsen");
+		/*JLabel sensorInfo = new JLabel("Laura Ipsen");
 		panel.add(sensorInfo);
 		JLabel uplinkInfo = new JLabel("Uplink info");
-		panel.add(uplinkInfo);
+		panel.add(uplinkInfo);*/
+		JButton button = new JButton("Billy");
+		panel.add(button);
 		return panel;
 	}
 	
-	private JPanel createDebugPanel() {
+	private static JPanel createDebugPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(1, 0));
 		JLabel sourceCode = new JLabel("Source Code Placeholder text");
@@ -65,6 +68,6 @@ public class GUI extends JPanel{
 	}
 	
 	public static void main(String[] args) {
-		GUI gui = new GUI(); // A somewhat awkward way of getting around having to static EVERYTHING.
+		makeGUI(); // A somewhat awkward way of getting around having to static EVERYTHING.
 	}
 }
