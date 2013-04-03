@@ -68,13 +68,19 @@ public class GUI extends JPanel{
 	
 	private static JPanel createSensorPanel() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(1, 0));
+		//panel.setLayout(new GridLayout(1, 0));
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.weightx = 1;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.ipadx = 300;
 		JLabel sensorInfo = new JLabel("Laura Ipsen");
-		panel.add(sensorInfo);
+		panel.add(sensorInfo, c);
+		c.gridx = 1;
+		c.ipadx = 100;
 		JLabel uplinkInfo = new JLabel("Uplink info");
-		panel.add(uplinkInfo);
-		JButton button = new JButton("Billy");
-		panel.add(button);
+		panel.add(uplinkInfo, c);
 		return panel;
 	}
 	
