@@ -86,11 +86,19 @@ public class GUI extends JPanel{
 	
 	private static JPanel createDebugPanel() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(1, 0));
-		JLabel sourceCode = new JLabel("Source Code Placeholder text");
-		panel.add(sourceCode);
-		JLabel debuggingInfo = new JLabel("Single Steps, Breakpoints, etc.");
-		panel.add(debuggingInfo);
+		//panel.setLayout(new GridLayout(1, 0));
+		panel.setLayout(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.weightx = 1;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.ipadx = 300;
+		JLabel sensorInfo = new JLabel("Ipsen Lauren");
+		panel.add(sensorInfo, c);
+		c.gridx = 1;
+		c.ipadx = 100;
+		JLabel uplinkInfo = new JLabel("Breakpoints & stuff");
+		panel.add(uplinkInfo, c);
 		return panel;
 	}
 	
