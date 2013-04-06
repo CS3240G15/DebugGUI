@@ -7,7 +7,8 @@ import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
 
-public class GUI extends JPanel{
+public class GUI extends JPanel
+				implements ActionListener{
 	
 	private static JFrame frame;
 	private static JPanel debugPanel, sensorPanel;
@@ -104,11 +105,13 @@ public class GUI extends JPanel{
 	
 	private static JButton makeAbortButton() {
 		JButton button = new JButton("Abort");
+		button.addActionListener(new GUI());
 		return button;
 	}
 	
 	private static JButton makeEStopButton() {
 		JButton button = new JButton("E Stop");
+		button.addActionListener(new GUI());
 		return button;
 	}
 	
@@ -120,6 +123,10 @@ public class GUI extends JPanel{
 	private static JLabel makeErrorSection() {
 		errorSection = new JLabel("Errors... and... like... stuff. Man.");
 		return errorSection;
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		errorSection.setText(e.getActionCommand());
 	}
 	
 	public static void main(String[] args) {
