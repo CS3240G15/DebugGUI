@@ -10,8 +10,7 @@ import java.awt.event.*;
 public class GUI extends JPanel{
 	
 	private static JFrame frame;
-	private static JPanel debugPanel, sensorPanel;
-	private static JLabel varSection, errorSection;
+	private static JLabel varSection, errorSection, uplinkSection, sourcecodeSection, breakpointSection, sensorSection;
 	
 	private static void makeGUI() {
 		frame = new JFrame("Debug GUI");
@@ -54,14 +53,21 @@ public class GUI extends JPanel{
 		
 		frame.setSize(800, 400);
 		frame.setVisible(true);
+		try {
+			System.out.println("starting sleep");
+			Thread.sleep(9000);
+			System.out.println("ending sleep");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
 	}
 	
 	private static JTabbedPane makeTabSection() {
 		JTabbedPane pane = new JTabbedPane();
-		sensorPanel =  createSensorPanel();
+		JPanel sensorPanel =  createSensorPanel();
 		pane.addTab("Sensor", sensorPanel);
 		pane.setSelectedIndex(0);
-		debugPanel = createDebugPanel();
+		JPanel debugPanel = createDebugPanel();
 		pane.addTab("Debug", debugPanel);
 		return pane;
 	}
@@ -93,12 +99,12 @@ public class GUI extends JPanel{
 		c.gridx = 0;
 		c.gridy = 0;
 		c.ipadx = 300;
-		JLabel sensorInfo = new JLabel("Ipsen Lauren");
-		panel.add(sensorInfo, c);
+		sensorSection = new JLabel("Ipsen Lauren");
+		panel.add(sensorSection, c);
 		c.gridx = 1;
 		c.ipadx = 100;
-		JLabel uplinkInfo = new JLabel("Breakpoints & stuff");
-		panel.add(uplinkInfo, c);
+		JLabel uplinkSection = new JLabel("Breakpoints & stuff");
+		panel.add(uplinkSection, c);
 		return panel;
 	}
 	
