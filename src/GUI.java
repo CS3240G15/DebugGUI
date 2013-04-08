@@ -6,30 +6,50 @@ import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.DataOutputStream;
+import java.io.DataInputStream;
 
 public class GUI extends JPanel{
 	
 	private static JFrame frame;
 	private static JLabel varSection, errorSection, uplinkSection, sourcecodeSection, breakpointSection, sensorSection;
 	private static NXTConnection connection;
+	private static OutputStream os;
+	private static InputStream is;
 	private static DataOutputStream oHandle;
 	private static DataInputStream iHandle;
+	private static NXTInfo[] info;
 	
 	private static void sensorUpdateLoop() {
 		// Establish the connection here, for testing purpose, we will use USB connection
 		NXTConnection connection = null;
-		if (USBtest){
-			connection = USB.waitForConnection();
+		if (USBtest) {
+			connection = NXTCommFactory.createNXTComm(NXTCommFactory.USB);
+			info = connection.search(null, 0); // no need for name if it is conn
+												// via USB
 		} else {
-			connection = Bluetooth.waitForConnection();
+			connection = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
+			info = connection.search("NXT", 1234); // your robot's name must be NXT and the code is 1234
 		}
-
-		// Open two data input and output streams for read and write respectively
-	    oHandle = connection.openDataOutputStream();
-	    iHandle = connection.openDataInputStream();
-	    String input = "",output = "";
+		
+		connection.open(info[0]);
+		
+		os = connection.getOutputStream();
+		is = connection.getInputStream();
+		oHandle = new DataOutputStream(os);
+		iHandle = new DataInputStream(is);
 	    
-	    
+		
+	    while (true) {
+			String s = "";
+	    	oHandle.write("0011 1".getBytes());
+	    	s = iHandle.readUTF();
+	    	oHandle.write("0011 2".getBytes());
+	    	s = s + iHandle.readUTF();
+	    	oHandle.write("0011 3".getBytes());
+	    	s = s + iHandle.readUTF();
+	    	oHandle.write("0011 4".getBytes());
+	    	s = s + iHandle.readUTF();
+	    }
 	}
 	
 	private static void makeGUI() {
