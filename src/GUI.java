@@ -1,6 +1,5 @@
 import javax.swing.JButton;
 import javax.swing.JTabbedPane;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JFrame;
@@ -10,11 +9,24 @@ import java.awt.event.*;
 public class GUI extends JPanel{
 	
 	private static JFrame frame;
-	private static JPanel debugPanel, sensorPanel;
-	private static JLabel varSection, errorSection;
+	private static JLabel varSection, errorSection, uplinkSection, sourcecodeSection, breakpointSection, sensorSection;
+	private static NXTConnection connection;
+	private static DataOutputStream oHandle;
+	private static DataInputStream iHandle;
 	
 	private static void sensorUpdateLoop() {
-		
+		// Establish the connection here, for testing purpose, we will use USB connection
+		NXTConnection connection = null;
+		if (USBtest){
+			connection = USB.waitForConnection();
+		} else {
+			connection = Bluetooth.waitForConnection();
+		}
+
+		// Open two data input and output streams for read and write respectively
+	    oHandle = connection.openDataOutputStream();
+	    iHandle = connection.openDataInputStream();
+	    String input = "",output = "";
 	}
 	
 	private static void makeGUI() {
@@ -58,14 +70,15 @@ public class GUI extends JPanel{
 		
 		frame.setSize(800, 400);
 		frame.setVisible(true);
+		sensorUpdateLoop();
 	}
 	
 	private static JTabbedPane makeTabSection() {
 		JTabbedPane pane = new JTabbedPane();
-		sensorPanel =  createSensorPanel();
+		JPanel sensorPanel =  createSensorPanel();
 		pane.addTab("Sensor", sensorPanel);
 		pane.setSelectedIndex(0);
-		debugPanel = createDebugPanel();
+		JPanel debugPanel = createDebugPanel();
 		pane.addTab("Debug", debugPanel);
 		return pane;
 	}
@@ -79,12 +92,12 @@ public class GUI extends JPanel{
 		c.gridx = 0;
 		c.gridy = 0;
 		c.ipadx = 300;
-		JLabel sensorInfo = new JLabel("Laura Ipsen");
-		panel.add(sensorInfo, c);
+		sensorSection = new JLabel("Laura Ipsen");
+		panel.add(sensorSection, c);
 		c.gridx = 1;
 		c.ipadx = 100;
-		JLabel uplinkInfo = new JLabel("Uplink info");
-		panel.add(uplinkInfo, c);
+		uplinkSection = new JLabel("Uplink info");
+		panel.add(uplinkSection, c);
 		return panel;
 	}
 	
@@ -97,12 +110,12 @@ public class GUI extends JPanel{
 		c.gridx = 0;
 		c.gridy = 0;
 		c.ipadx = 300;
-		JLabel sensorInfo = new JLabel("Ipsen Lauren");
-		panel.add(sensorInfo, c);
+		sourcecodeSection = new JLabel("Ipsen Lauren");
+		panel.add(sourcecodeSection, c);
 		c.gridx = 1;
 		c.ipadx = 100;
-		JLabel uplinkInfo = new JLabel("Breakpoints & stuff");
-		panel.add(uplinkInfo, c);
+		breakpointSection = new JLabel("Breakpoints & stuff");
+		panel.add(breakpointSection, c);
 		return panel;
 	}
 	
