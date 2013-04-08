@@ -7,12 +7,19 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.DataOutputStream;
 import java.io.DataInputStream;
+import java.io.OutputStream;
+import java.io.InputStream;
+
+import lejos.pc.comm.NXTComm;
+import lejos.pc.comm.NXTCommException;
+import lejos.pc.comm.NXTCommFactory;
+import lejos.pc.comm.NXTInfo;
 
 public class GUI extends JPanel{
 	
 	private static JFrame frame;
 	private static JLabel varSection, errorSection, uplinkSection, sourcecodeSection, breakpointSection, sensorSection;
-	private static NXTConnection connection;
+	private static NXTComm connection;
 	private static OutputStream os;
 	private static InputStream is;
 	private static DataOutputStream oHandle;
@@ -21,15 +28,10 @@ public class GUI extends JPanel{
 	
 	private static void sensorUpdateLoop() {
 		// Establish the connection here, for testing purpose, we will use USB connection
-		NXTConnection connection = null;
-		if (USBtest) {
-			connection = NXTCommFactory.createNXTComm(NXTCommFactory.USB);
-			info = connection.search(null, 0); // no need for name if it is conn
-												// via USB
-		} else {
+		NXTComm connection = null;
+		try {
 			connection = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
-			info = connection.search("NXT", 1234); // your robot's name must be NXT and the code is 1234
-		}
+			info = connection.search("LEAD9"); // your robot's name must be NXT and the code is 1234
 		
 		connection.open(info[0]);
 		
@@ -60,6 +62,9 @@ public class GUI extends JPanel{
 				System.out.println(e.toString());
 			}
 	    }
+		} catch (Exception e) {
+			System.out.println(e.toString());
+		}
 	}
 	
 	private static void makeGUI() {
@@ -125,7 +130,7 @@ public class GUI extends JPanel{
 		c.gridx = 0;
 		c.gridy = 0;
 		c.ipadx = 300;
-		sensorSection = new JLabel("Laura Ipsen");
+		sensorSection = new JLabel("Sensor Section");
 		panel.add(sensorSection, c);
 		c.gridx = 1;
 		c.ipadx = 100;
@@ -143,7 +148,7 @@ public class GUI extends JPanel{
 		c.gridx = 0;
 		c.gridy = 0;
 		c.ipadx = 300;
-		sourcecodeSection = new JLabel("Ipsen Lauren");
+		sourcecodeSection = new JLabel("Source Code");
 		panel.add(sourcecodeSection, c);
 		c.gridx = 1;
 		c.ipadx = 100;
@@ -173,6 +178,7 @@ public class GUI extends JPanel{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		try {
 		if (e.getActionCommand().equals("Abort")) {
 			oHandle.write(("0110").getBytes());
 			oHandle.flush();
@@ -182,6 +188,9 @@ public class GUI extends JPanel{
 			oHandle.flush();
 		}
 		errorSection.setText(e.getActionCommand());
+		} catch (Exception b) {
+			System.out.println(e.toString());
+		}
 	}
 	
 	public static void main(String[] args) {
