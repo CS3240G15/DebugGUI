@@ -5,6 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.DataOutputStream;
 
 public class GUI extends JPanel{
 	
@@ -27,6 +28,8 @@ public class GUI extends JPanel{
 	    oHandle = connection.openDataOutputStream();
 	    iHandle = connection.openDataInputStream();
 	    String input = "",output = "";
+	    
+	    
 	}
 	
 	private static void makeGUI() {
@@ -137,6 +140,18 @@ public class GUI extends JPanel{
 	private static JLabel makeErrorSection() {
 		errorSection = new JLabel("Errors... and... like... stuff. Man.");
 		return errorSection;
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		if (e.getActionCommand().equals("Abort")) {
+			oHandle.write(("0110").getBytes());
+			oHandle.flush();
+		}
+		else if (e.getActionCommand().equals("E Stop")) {
+			oHandle.write(("0101").getBytes());
+			oHandle.flush();
+		}
+		errorSection.setText(e.getActionCommand());
 	}
 	
 	public static void main(String[] args) {
