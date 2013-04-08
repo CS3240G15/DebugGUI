@@ -49,6 +49,16 @@ public class GUI extends JPanel{
 	    	s = s + iHandle.readUTF();
 	    	oHandle.write("0011 4".getBytes());
 	    	s = s + iHandle.readUTF();
+	    	
+	    	sensorSection.setText(s);
+	    	
+			try {
+				System.out.println("starting sleep");
+				Thread.sleep(500);
+				System.out.println("ending sleep");
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			}
 	    }
 	}
 	
