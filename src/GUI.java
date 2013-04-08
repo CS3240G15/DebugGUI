@@ -13,6 +13,10 @@ public class GUI extends JPanel{
 	private static JPanel debugPanel, sensorPanel;
 	private static JLabel varSection, errorSection;
 	
+	private static void sensorUpdateLoop() {
+		
+	}
+	
 	private static void makeGUI() {
 		frame = new JFrame("Debug GUI");
 		frame.addWindowListener(new WindowAdapter() {
