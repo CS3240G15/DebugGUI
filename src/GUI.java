@@ -11,10 +11,6 @@ import java.io.OutputStream;
 import java.io.InputStream;
 
 import lejos.pc.comm.*;
-/*import lejos.pc.comm.NXTComm;
-//import lejos.pc.comm.NXTCommException;
-import lejos.pc.comm.NXTCommFactory;
-import lejos.pc.comm.NXTInfo;*/
 
 public class GUI extends JPanel{
 
@@ -75,11 +71,10 @@ public class GUI extends JPanel{
 	}
 	
 	private static void sensorUpdateLoop() {
-		// Establish the connection here, for testing purpose, we will use USB connection
 		connection = null;
 		try {
 			connection = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
-			info = connection.search("LEAD9"); // your robot's name must be NXT and the code is 1234
+			info = connection.search("LEAD9",1234);
 
 			connection.open(info[0]);
 
@@ -190,7 +185,6 @@ public class GUI extends JPanel{
 
 	private static JPanel createDebugPanel() {
 		JPanel panel = new JPanel();
-		//panel.setLayout(new GridLayout(1, 0));
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx = 1;
@@ -243,6 +237,6 @@ public class GUI extends JPanel{
 	}
 
 	public static void main(String[] args) {
-		makeGUI(); // A somewhat awkward way of getting around having to static EVERYTHING.
+		makeGUI();
 	}
 }
