@@ -76,7 +76,7 @@ public class GUI extends JPanel{
 		connection = null;
 		try {
 			connection = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
-			info = connection.search("LEAD9"/*,1234*/);
+			info = connection.search("LEAD9",1234);
 
 			connection.open(info[0]);
 
@@ -125,8 +125,6 @@ public class GUI extends JPanel{
 		GridBagConstraints c = new GridBagConstraints();
 
 		c.fill = GridBagConstraints.NONE;
-		//c.weightx = 0.5;
-		//c.weighty = 0.5;
 		c.gridx = 0;
 		c.gridy = 0;
 		c.gridheight = 2;
@@ -169,7 +167,6 @@ public class GUI extends JPanel{
 
 	private static JPanel createSensorPanel() {
 		JPanel panel = new JPanel();
-		//panel.setLayout(new GridLayout(1, 0));
 		panel.setLayout(new GridBagLayout());
 		GridBagConstraints c = new GridBagConstraints();
 		c.weightx = 1;
@@ -213,12 +210,12 @@ public class GUI extends JPanel{
 	}
 
 	private static JLabel makeVarSection() {
-		varSection = new JLabel("Variables and stuff");
+		varSection = new JLabel("Variables Section");
 		return varSection;
 	}
 
 	private static JLabel makeErrorSection() {
-		errorSection = new JLabel("Errors... and... like... stuff. Man.");
+		errorSection = new JLabel("Error Section");
 		return errorSection;
 	}
 
