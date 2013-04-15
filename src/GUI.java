@@ -39,6 +39,7 @@ public class GUI extends JPanel{
 		}
 		ret += "012 ";
 		ret += opcode;
+		seqNum++;
 		return ret;
 	}
 	
@@ -58,15 +59,16 @@ public class GUI extends JPanel{
 		}
 		
 		if (len > 99) {
-			ret += Integer.toString(seqNum) + " ";
+			ret += Integer.toString(len) + " ";
 		}
 		else if (len > 9) {
-			ret += "0" + Integer.toString(seqNum) + " ";
+			ret += "0" + Integer.toString(len) + " ";
 		}
 		else {
-			ret += "00" + Integer.toString(seqNum) + " ";
+			ret += "00" + Integer.toString(len) + " ";
 		}
 		ret += opcode + " " + parameters;
+		seqNum++;
 		return ret;
 	}
 	
@@ -74,7 +76,7 @@ public class GUI extends JPanel{
 		connection = null;
 		try {
 			connection = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
-			info = connection.search("LEAD9",1234);
+			info = connection.search("LEAD9"/*,1234*/);
 
 			connection.open(info[0]);
 
@@ -83,9 +85,10 @@ public class GUI extends JPanel{
 			oHandle = new DataOutputStream(os);
 			iHandle = new DataInputStream(is);
 
+			System.out.println("Now entering the sensorUpdateLoop");
 
 			while (true) {
-				String s = "";
+				String s = "Something's gone wrong";
 				oHandle.write(buildMessage("0011","1").getBytes());
 				s = iHandle.readUTF();
 				oHandle.write(buildMessage("0011", "2").getBytes());
@@ -114,7 +117,6 @@ public class GUI extends JPanel{
 		seqNum = 1;
 		frame = new JFrame("Debug GUI");
 		frame.addWindowListener(new WindowAdapter() {
-
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
