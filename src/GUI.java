@@ -7,6 +7,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.DataOutputStream;
 import java.io.DataInputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.InputStream;
 
@@ -201,11 +202,35 @@ public class GUI extends JPanel{
 
 	private static JButton makeAbortButton() {
 		JButton button = new JButton("Abort");
+		button.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				try {
+					oHandle.write(buildMessage("0110").getBytes());
+					oHandle.flush();
+				} catch (IOException e1) {
+					errorSection.setText(e.getActionCommand());
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		return button;
 	}
 
 	private static JButton makeEStopButton() {
 		JButton button = new JButton("E Stop");
+		button.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e){
+				try {
+					oHandle.write(buildMessage("0101").getBytes());
+					oHandle.flush();
+				} catch (IOException e1) {
+					errorSection.setText(e.getActionCommand());
+					e1.printStackTrace();
+				}
+				
+			}
+		});
 		return button;
 	}
 
