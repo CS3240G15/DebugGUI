@@ -16,13 +16,39 @@ public class GUI extends JPanel{
 	private static void sensorUpdateLoop() {
 		try {
 			System.out.println("Now entering the sensorUpdateLoop");
-
+			
+			float temp;
+			
 			while (true) {
-				String s = "Something's gone wrong";
-				s = Float.toString(Communicator.sendMessage("0011 1")) + "\n";
-				s += Float.toString(Communicator.sendMessage("0011 2")) + "\n";
-				s += Float.toString(Communicator.sendMessage("0011 3")) + "\n";
-				s += Float.toString(Communicator.sendMessage("0011 4"));
+				String s = "<html>";
+				temp = Communicator.sendMessage("0011 1");
+				if (temp < 0) {
+					s += "Sensor 1: N/A <br>";
+				}
+				else {
+					s += "Sensor 1: " + Float.toString(temp) + "<br>";
+				}
+				temp = Communicator.sendMessage("0011 2");
+				if (temp < 0) {
+					s += "Sensor 2: N/A <br>";
+				}
+				else {
+					s += "Sensor 2: " + Float.toString(temp) + "<br>";
+				}
+				temp = Communicator.sendMessage("0011 3");
+				if (temp < 0) {
+					s += "Sensor 3: N/A <br>";
+				}
+				else {
+					s += "Sensor 3: " + Float.toString(temp) + "<br>";
+				}
+				temp = Communicator.sendMessage("0011 4");
+				if (temp < 0) {
+					s += "Sensor 4: N/A <br>";
+				}
+				else {
+					s += "Sensor 4: " + Float.toString(temp) + "<br>";
+				}
 
 				sensorSection.setText(s);
 
