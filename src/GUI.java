@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.DataInputStream;
 
 public class GUI extends JPanel{
 
@@ -13,7 +12,6 @@ public class GUI extends JPanel{
 	
 	private static JFrame frame;
 	private static JLabel varSection, errorSection, uplinkSection, sourcecodeSection, breakpointSection, sensorSection;
-	private static DataInputStream iHandle;
 	
 	private static void sensorUpdateLoop() {
 		try {
@@ -21,14 +19,10 @@ public class GUI extends JPanel{
 
 			while (true) {
 				String s = "Something's gone wrong";
-				Communicator.sendMessage("0011 1");
-				s = iHandle.readUTF();
-				Communicator.sendMessage("0011 2");;
-				s = s + iHandle.readUTF();
-				Communicator.sendMessage("0011 3");
-				s = s + iHandle.readUTF();
-				Communicator.sendMessage("0011 4");
-				s = s + iHandle.readUTF();
+				s = Float.toString(Communicator.sendMessage("0011 1")) + "\n";
+				s += Float.toString(Communicator.sendMessage("0011 2")) + "\n";
+				s += Float.toString(Communicator.sendMessage("0011 3")) + "\n";
+				s += Float.toString(Communicator.sendMessage("0011 4"));
 
 				sensorSection.setText(s);
 
@@ -37,10 +31,13 @@ public class GUI extends JPanel{
 					Thread.sleep(500);
 					System.out.println("ending sleep");
 				} catch (Exception e) {
+					errorSection.setText(errorSection.getText() + "\n" + e.toString());
 					System.out.println(e.toString());
 				}
 			}
 		} catch (Exception e) {
+			errorSection.setText(errorSection.getText() + "\n" + e.toString());
+			errorSection.setText(e.toString());
 			System.out.println(e.toString());
 		}
 	}

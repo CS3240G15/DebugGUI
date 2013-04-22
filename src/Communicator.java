@@ -24,14 +24,16 @@ public class Communicator {
 
 	/**
 	 * Consolidates all the functions necessary for sending a message into one
-	 * @return void
+	 * @return transmitMessage()'s value
+	 * 		   -3 if there was an error
 	 * @param String message
 	 */
-	public static void sendMessage(String message) {
+	public static float sendMessage(String message) {
 		try {
-			transmitMessage(convertMessageToByteArray(message));
+			return transmitMessage(convertMessageToByteArray(message));
 		} catch (Exception sM) {
 			System.out.println(sM.toString());
+			return -3;
 		}
 	}
 	
