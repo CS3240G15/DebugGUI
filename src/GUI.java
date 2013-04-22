@@ -12,6 +12,10 @@ public class GUI extends JPanel{
 	
 	private static JFrame frame;
 	private static JLabel varSection, errorSection, uplinkSection, sourcecodeSection, breakpointSection, sensorSection;
+
+	public static void main(String[] args) {
+		makeGUI();
+	}
 	
 	private static void sensorUpdateLoop() {
 		try {
@@ -53,9 +57,7 @@ public class GUI extends JPanel{
 				sensorSection.setText(s);
 
 				try {
-					System.out.println("starting sleep");
 					Thread.sleep(500);
-					System.out.println("ending sleep");
 				} catch (Exception e) {
 					errorSection.setText(errorSection.getText() + "\n" + e.toString());
 					System.out.println(e.toString());
@@ -201,9 +203,5 @@ public class GUI extends JPanel{
 		} catch (Exception b) {
 			System.out.println(e.toString());
 		}
-	}
-
-	public static void main(String[] args) {
-		makeGUI();
 	}
 }

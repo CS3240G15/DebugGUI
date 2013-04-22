@@ -116,7 +116,6 @@ public class Communicator {
 	 */
 	public static float transmitMessage(byte[] message) {
 		transmitCount++;
-		System.out.println(new String(message));
 		try {
 			dataOutputStream.write(message);
 			dataOutputStream.flush();
