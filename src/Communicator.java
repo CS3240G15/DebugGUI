@@ -131,7 +131,7 @@ public class Communicator {
 		try {
 			response = future.get(30, TimeUnit.SECONDS);
 
-		} catch (InterruptedException | ExecutionException | TimeoutException e1) {
+		} catch (Exception e1) {
 			return -1;
 		}
 		String[] ackMessage = response.split("\\s+");
