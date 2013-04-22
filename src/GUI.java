@@ -5,13 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JFrame;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.DataOutputStream;
 import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.InputStream;
-
-import lejos.pc.comm.*;
 
 public class GUI extends JPanel{
 
@@ -19,84 +13,21 @@ public class GUI extends JPanel{
 	
 	private static JFrame frame;
 	private static JLabel varSection, errorSection, uplinkSection, sourcecodeSection, breakpointSection, sensorSection;
-	private static NXTComm connection;
-	private static OutputStream os;
-	private static InputStream is;
-	private static DataOutputStream oHandle;
 	private static DataInputStream iHandle;
-	private static NXTInfo[] info;
-	private static int seqNum;
-
-	private static String buildMessage(String opcode) {
-		String ret;
-		if (seqNum > 99) {
-			ret = Integer.toString(seqNum) + " ";
-		}
-		else if (seqNum > 9) {
-			ret = "0" + Integer.toString(seqNum) + " ";
-		}
-		else {
-			ret = "00" + Integer.toString(seqNum) + " ";
-		}
-		ret += "012 ";
-		ret += opcode;
-		seqNum++;
-		return ret;
-	}
-	
-	private static String buildMessage(String opcode, String parameters) {
-		String ret;
-		int len = 13;
-		len += parameters.length();
-		
-		if (seqNum > 99) {
-			ret = Integer.toString(seqNum) + " ";
-		}
-		else if (seqNum > 9) {
-			ret = "0" + Integer.toString(seqNum) + " ";
-		}
-		else {
-			ret = "00" + Integer.toString(seqNum) + " ";
-		}
-		
-		if (len > 99) {
-			ret += Integer.toString(len) + " ";
-		}
-		else if (len > 9) {
-			ret += "0" + Integer.toString(len) + " ";
-		}
-		else {
-			ret += "00" + Integer.toString(len) + " ";
-		}
-		ret += opcode + " " + parameters;
-		seqNum++;
-		return ret;
-	}
 	
 	private static void sensorUpdateLoop() {
-		connection = null;
 		try {
-			connection = NXTCommFactory.createNXTComm(NXTCommFactory.BLUETOOTH);
-			info = connection.search("LEAD9",1234);
-
-			connection.open(info[0]);
-
-			os = connection.getOutputStream();
-			is = connection.getInputStream();
-			oHandle = new DataOutputStream(os);
-			iHandle = new DataInputStream(is);
-
 			System.out.println("Now entering the sensorUpdateLoop");
 
 			while (true) {
 				String s = "Something's gone wrong";
-				oHandle.write(buildMessage("0011","1").getBytes());
+				Communicator.sendMessage("0011 1");
 				s = iHandle.readUTF();
-				oHandle.write(buildMessage("0011", "2").getBytes());
+				Communicator.sendMessage("0011 2");;
 				s = s + iHandle.readUTF();
-				oHandle.write(buildMessage("0011", "3").getBytes());
+				Communicator.sendMessage("0011 3");
 				s = s + iHandle.readUTF();
-				oHandle.write(buildMessage("0011", "4").getBytes());
+				Communicator.sendMessage("0011 4");
 				s = s + iHandle.readUTF();
 
 				sensorSection.setText(s);
@@ -115,7 +46,6 @@ public class GUI extends JPanel{
 	}
 
 	private static void makeGUI() {
-		seqNum = 1;
 		frame = new JFrame("Debug GUI");
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -153,6 +83,12 @@ public class GUI extends JPanel{
 
 		frame.setSize(800, 400);
 		frame.setVisible(true);
+		try {
+			Communicator.establishPCConnection();
+		} catch (Exception estbPCConn) {
+			errorSection.setText(estbPCConn.toString());
+			System.out.println(estbPCConn.toString());
+		}
 		sensorUpdateLoop();
 	}
 
@@ -204,14 +140,7 @@ public class GUI extends JPanel{
 		JButton button = new JButton("Abort");
 		button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				try {
-					oHandle.write(buildMessage("0110").getBytes());
-					oHandle.flush();
-				} catch (IOException e1) {
-					errorSection.setText(e.getActionCommand());
-					e1.printStackTrace();
-				}
-				
+					Communicator.sendMessage("0110");
 			}
 		});
 		return button;
@@ -221,14 +150,7 @@ public class GUI extends JPanel{
 		JButton button = new JButton("E Stop");
 		button.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				try {
-					oHandle.write(buildMessage("0101").getBytes());
-					oHandle.flush();
-				} catch (IOException e1) {
-					errorSection.setText(e.getActionCommand());
-					e1.printStackTrace();
-				}
-				
+					Communicator.sendMessage("0101");
 			}
 		});
 		return button;
@@ -247,12 +169,10 @@ public class GUI extends JPanel{
 	public void actionPerformed(ActionEvent e) {
 		try {
 			if (e.getActionCommand().equals("Abort")) {
-				oHandle.write(buildMessage("0110").getBytes());
-				oHandle.flush();
+				Communicator.sendMessage("0110");
 			}
 			else if (e.getActionCommand().equals("E Stop")) {
-				oHandle.write(buildMessage("0101").getBytes());
-				oHandle.flush();
+				Communicator.sendMessage("0101");
 			}
 			errorSection.setText(e.getActionCommand());
 		} catch (Exception b) {
