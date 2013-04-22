@@ -74,6 +74,11 @@ public class GUI extends JPanel{
 		frame = new JFrame("Debug GUI");
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
+				try {
+					Communicator.destroyConnection();
+				} catch (Exception commDC) {
+					System.out.println(commDC.toString());
+				}
 				System.exit(0);
 			}
 		});
