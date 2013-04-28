@@ -11,7 +11,7 @@ public class GUI extends JPanel{
 	static final long serialVersionUID = 1;
 	
 	private static JFrame frame;
-	private static JLabel varSection, errorSection, uplinkSection, sourcecodeSection, breakpointSection, sensorSection;
+	private static JLabel errorSection, uplinkSection, sourcecodeSection, breakpointSection, sensorSection;
 
 	public static void main(String[] args) {
 		makeGUI();
@@ -100,12 +100,6 @@ public class GUI extends JPanel{
 		c.gridx = 2;
 		frame.getContentPane().add(makeEStopButton(), c);
 
-		c.gridwidth = 2;
-		c.gridheight = 1;
-		c.gridx = 1;
-		c.gridy = 1;
-		frame.getContentPane().add(makeVarSection(), c);
-
 		c.gridwidth = 3;
 		c.gridx = 0;
 		c.gridy = 2;
@@ -184,11 +178,6 @@ public class GUI extends JPanel{
 			}
 		});
 		return button;
-	}
-
-	private static JLabel makeVarSection() {
-		varSection = new JLabel("Variables Section");
-		return varSection;
 	}
 
 	private static JLabel makeErrorSection() {
