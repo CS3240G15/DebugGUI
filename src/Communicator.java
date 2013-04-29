@@ -102,6 +102,22 @@ public class Communicator {
 
 		return (convertedMessage.getBytes());
 	}
+	
+	public static String getBacklog() {
+		ExecutorService exec = Executors.newSingleThreadExecutor();
+		Task readInputStreamTask = new Task();
+		Future<String> future = exec.submit(readInputStreamTask);
+
+		String ret = null;
+		try {
+			ret = future.get(30, TimeUnit.SECONDS);
+
+		} catch (Exception e1) {
+			System.out.println("response timed out");
+			ret = "";
+		}
+		return ret;
+	}
 
 	/**
 	 * Transmits the message passed in as a parameter.

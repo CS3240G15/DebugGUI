@@ -71,6 +71,7 @@ public class GUI extends JPanel{
 	}
 
 	private static void makeGUI() {
+		String backlogString;
 		frame = new JFrame("Debug GUI");
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -109,6 +110,14 @@ public class GUI extends JPanel{
 		frame.setVisible(true);
 		try {
 			Communicator.establishPCConnection();
+			// Build backlog string
+			backlogString = Communicator.getBacklog(); // Getting the initial ack
+			backlogString = Communicator.getBacklog();
+			backlogString += Communicator.getBacklog();
+			backlogString += Communicator.getBacklog();
+			backlogString += Communicator.getBacklog();
+			backlogString += Communicator.getBacklog();
+			sourcecodeSection.setText(backlogString);
 		} catch (Exception estbPCConn) {
 			errorSection.setText(estbPCConn.toString());
 			System.out.println(estbPCConn.toString());
