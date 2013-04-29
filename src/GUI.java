@@ -11,7 +11,7 @@ public class GUI extends JPanel{
 	static final long serialVersionUID = 1;
 	
 	private static JFrame frame;
-	private static JLabel errorSection, uplinkSection, sourcecodeSection, sensorSection;
+	private static JLabel errorSection, sourcecodeSection, sensorSection;
 
 	public static void main(String[] args) {
 		makeGUI();
@@ -147,10 +147,6 @@ public class GUI extends JPanel{
 		c.ipadx = 300;
 		sensorSection = new JLabel("Sensor Section");
 		panel.add(sensorSection, c);
-		c.gridx = 1;
-		c.ipadx = 100;
-		uplinkSection = new JLabel("Uplink info");
-		panel.add(uplinkSection, c);
 		return panel;
 	}
 
