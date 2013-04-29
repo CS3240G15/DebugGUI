@@ -110,7 +110,7 @@ public class Communicator {
 
 		String ret = null;
 		try {
-			ret = future.get(30, TimeUnit.SECONDS);
+			ret = future.get(5, TimeUnit.SECONDS);
 
 		} catch (Exception e1) {
 			System.out.println("response timed out");
@@ -143,7 +143,7 @@ public class Communicator {
 
 		String response = null;
 		try {
-			response = future.get(30, TimeUnit.SECONDS);
+			response = future.get(5, TimeUnit.SECONDS);
 
 		} catch (Exception e1) {
 			return -1;
