@@ -111,12 +111,14 @@ public class GUI extends JPanel{
 		try {
 			Communicator.establishPCConnection();
 			// Build backlog string
-			backlogString = Communicator.getBacklog(); // Getting the initial ack
-			backlogString = Communicator.getBacklog();
-			backlogString += Communicator.getBacklog();
-			backlogString += Communicator.getBacklog();
-			backlogString += Communicator.getBacklog();
-			backlogString += Communicator.getBacklog();
+			backlogString = Communicator.getBacklog(); // Throw out initial ack back
+			backlogString = "<html>";
+			backlogString = Communicator.getBacklog() + "<br>";
+			backlogString += Communicator.getBacklog() + "<br>";
+			backlogString += Communicator.getBacklog() + "<br>";
+			backlogString += Communicator.getBacklog() + "<br>";
+			backlogString += Communicator.getBacklog() + "<br>";
+			backlogString += "</html>";
 			sourcecodeSection.setText(backlogString);
 		} catch (Exception estbPCConn) {
 			errorSection.setText(estbPCConn.toString());
