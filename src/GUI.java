@@ -11,7 +11,7 @@ public class GUI extends JPanel{
 	static final long serialVersionUID = 1;
 	
 	private static JFrame frame;
-	private static JLabel errorSection, uplinkSection, sourcecodeSection, breakpointSection, sensorSection;
+	private static JLabel errorSection, uplinkSection, sourcecodeSection, sensorSection;
 
 	public static void main(String[] args) {
 		makeGUI();
@@ -164,10 +164,6 @@ public class GUI extends JPanel{
 		c.ipadx = 300;
 		sourcecodeSection = new JLabel("Source Code");
 		panel.add(sourcecodeSection, c);
-		c.gridx = 1;
-		c.ipadx = 100;
-		breakpointSection = new JLabel("Breakpoints & stuff");
-		panel.add(breakpointSection, c);
 		return panel;
 	}
 
